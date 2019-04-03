@@ -10,10 +10,10 @@ namespace ITM_Lab02
     {
         public String UserName { get; set; }
         public String Address { get; set; }
-        public String Iban { get; set; }
+        public int Iban { get; set; }
         public int Amount { get; set; }
 
-        public Account(string user, string address, string iban)
+        public Account(string user, string address, int iban)
         {
             UserName = user;
             Address = address;
@@ -22,25 +22,25 @@ namespace ITM_Lab02
 
         }
 
-        public void AddDeposit(int sum)
-        {
-            Amount += sum;
-            Console.WriteLine("You added {0} $ into yout account.", sum);
-            Console.WriteLine("Total amount is:  {0} $", Amount);
+        //public void AddDeposit(int sum)
+        //{
+        //    Amount += sum;
+        //    Console.WriteLine("You added {0} $ into yout account.", sum);
+        //    Console.WriteLine("Total amount is:  {0} $", Amount);
 
-        }
+        //}
 
-        public void WitdrawFromDeposit(int sum)
-        {
-            Amount -= sum;
-            Console.WriteLine("You witdrawed {0} $ from yout account.", sum);
-            Console.WriteLine("Remaining amount is:  {0} $", Amount);
-        }
+        //public void WitdrawFromDeposit(int sum)
+        //{
+        //    Amount -= sum;
+        //    Console.WriteLine("You witdrawed {0} $ from yout account.", sum);
+        //    Console.WriteLine("Remaining amount is:  {0} $", Amount);
+        //}
 
-        public void DisplayAmount( string iban)
-        {
-            Console.WriteLine("Your total amount is: {0}" ,Amount);
-        }
+        //public void DisplayAmount( int iban)
+        //{
+        //    Console.WriteLine("Your total amount is: {0}" ,Amount);
+        //}
 
     }
 }

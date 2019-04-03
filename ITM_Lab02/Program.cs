@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ITM_Lab02
 {
-    class Program       
+    class Program
     {
-        
+
         static void Main(string[] args)
         {
             //create bank
@@ -18,7 +14,7 @@ namespace ITM_Lab02
             System.Threading.Thread.Sleep(800);
             Console.Clear();
             Console.WriteLine(" ---Please create a new bank---");
-            Console.WriteLine("Insert banck address");
+            Console.WriteLine("Insert bank address");
             var bankAddress = Console.ReadLine();
             System.Threading.Thread.Sleep(800);
             Console.Clear();
@@ -48,26 +44,34 @@ namespace ITM_Lab02
             Console.WriteLine("Deposit ---------> press \"2\" ");
             Console.WriteLine("Withdraw ---------> press \"3\" ");
             Console.WriteLine("Display sold ----> press \"4\" ");
-            Console.WriteLine("Exit -------------> press \"5\" ");
+            Console.WriteLine("Delete account ----> press \"5\" ");
+            Console.WriteLine("Exit -------------> press \"6\" ");
         }
 
-       
-        
+        //generate random iban from 1 to 20
+        static int RandomNumber()
+        {
+            Random iban = new Random();
+            return iban.Next(1, 20);
+        }
+
         // Opeations
         static void Operations(Bank bank)
         {
             bool operation = true;
+            var accountIban = RandomNumber();
 
             while (operation)
             {
                 var menuOption = Convert.ToInt32(Console.ReadLine());
+
                 DisplayMenu();
 
                 switch (menuOption)
                 {
                     //Create Account
                     case 1:
-                        
+
                         Console.Clear();
                         Console.WriteLine("       Create new account");
                         Console.WriteLine("Insert account name:");
@@ -79,79 +83,88 @@ namespace ITM_Lab02
                         var accountAddress = Console.ReadLine();
                         System.Threading.Thread.Sleep(1000);
                         Console.Clear();
-                        Console.WriteLine("         Create new account");
-                        Console.WriteLine("Insert account iban:");
-                        var accountIban = Console.ReadLine();
+
                         System.Threading.Thread.Sleep(1000);
-                       
+
                         Console.Clear();
                         bank.CreatAccount(accountName, accountAddress, accountIban);
-                       
-                        System.Threading.Thread.Sleep(1200);
+
+                        System.Threading.Thread.Sleep(1500);
                         Console.Clear();
-                        DisplayMenu();                        
+                        DisplayMenu();
                         break;
                     //Deposit
                     case 2:
                         Console.Clear();
                         Console.WriteLine("      Deposit");
-                        Console.WriteLine("Please insert the Iban:");
-                        var iban = Console.ReadLine();
-                        var foundAccount = bank.GetAccount(iban);
-                        
-                        if (foundAccount != null)
-                        {
-                            Console.WriteLine("Insert amount you want to deposit:");
-                            var amout = Convert.ToInt32(Console.ReadLine());
-                            foundAccount.AddDeposit(amout);                            
-                            
-                        }
+                        Console.WriteLine("Insert amount you want to deposit:");
+                        var depositAmount = Convert.ToInt32(Console.ReadLine());
+                        bank.AddDeposit2(accountIban, depositAmount);
                         System.Threading.Thread.Sleep(1500);
-                        Console.Clear();                        
-                        DisplayMenu();                        
+                        Console.Clear();
+                        DisplayMenu();
                         break;
                     //Withdraw
                     case 3:
                         Console.Clear();
                         Console.WriteLine("      Withdraw");
-                        Console.WriteLine("Please insert the Iban:");
-                        iban = Console.ReadLine();
-                        foundAccount = bank.GetAccount(iban);
-
-                        if (foundAccount != null)
-                        {
-                            Console.WriteLine("Insert amount you want to withdraw:");
-                            var amout = Convert.ToInt32(Console.ReadLine());
-                            foundAccount.WitdrawFromDeposit(amout);
-                        }
+                        Console.WriteLine("Insert amount you want to withdraw:");
+                        var amountWitdraw = Convert.ToInt32(Console.ReadLine());
+                        bank.WitdrawFromDeposit2(accountIban, amountWitdraw);
                         System.Threading.Thread.Sleep(1500);
-                        Console.Clear();                       
+                        Console.Clear();
                         DisplayMenu();
                         break;
                     //Display amount
                     case 4:
                         Console.Clear();
                         Console.WriteLine("     Display sold");
-                        Console.WriteLine("Please insert the Iban:");
-                        iban = Console.ReadLine();
-                        foundAccount = bank.GetAccount(iban);
-
-                        if (foundAccount != null)
+                        bank.DisplayAmount2(accountIban);
+                        System.Threading.Thread.Sleep(1500);
+                        Console.Clear();
+                        DisplayMenu();
+                        break;
+                    //Delete account
+                    case 5:
+                        Console.Clear();
+                        Console.WriteLine("     Delete account");
+                        Console.WriteLine("Enter the account name or iban:");
+                        var deleteByNameOrIban = Console.ReadLine();
+                          
+                        string finalType = "String";
+                        if (!string.IsNullOrEmpty(deleteByNameOrIban))
                         {
-                            foundAccount.DisplayAmount(iban);                          
-                        }           
+                            // Check integer before Decimal
+                            int tryInt;                            
+                            if (Int32.TryParse(deleteByNameOrIban, out tryInt))
+                            {
+                                finalType = "Integer";
+                                bank.DeleteAccount(Convert.ToInt32(deleteByNameOrIban));
+                            }
+                            else 
+                            {
+                                finalType = "String";
+                                bank.DeleteAccount(deleteByNameOrIban);
+                            }
+
+                        }
+
+                        Console.WriteLine(finalType);
+
+
                         System.Threading.Thread.Sleep(1500);
                         Console.Clear();
                         DisplayMenu();
                         break;
                     //Exit
-                    case 5:
+                    case 6:
                         Console.Clear();
                         Console.WriteLine("Thank you. Have a good day!");
                         System.Threading.Thread.Sleep(1000);
                         operation = false;
                         Environment.Exit(0);
                         break;
+
                 }
             }
 
