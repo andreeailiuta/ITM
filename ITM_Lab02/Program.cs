@@ -59,12 +59,12 @@ namespace ITM_Lab02
         static void Operations(Bank bank)
         {
             bool operation = true;
-            var accountIban = RandomNumber();
+            
 
             while (operation)
             {
                 var menuOption = Convert.ToInt32(Console.ReadLine());
-
+                var accountIban = RandomNumber();
                 DisplayMenu();
 
                 switch (menuOption)
@@ -83,12 +83,9 @@ namespace ITM_Lab02
                         var accountAddress = Console.ReadLine();
                         System.Threading.Thread.Sleep(1000);
                         Console.Clear();
-
                         System.Threading.Thread.Sleep(1000);
-
-                        Console.Clear();
+                        Console.Clear();                        
                         bank.CreatAccount(accountName, accountAddress, accountIban);
-
                         System.Threading.Thread.Sleep(1500);
                         Console.Clear();
                         DisplayMenu();
@@ -97,9 +94,11 @@ namespace ITM_Lab02
                     case 2:
                         Console.Clear();
                         Console.WriteLine("      Deposit");
+                        Console.WriteLine("Insert iban:");
+                        var ibanForDeposit = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("Insert amount you want to deposit:");
                         var depositAmount = Convert.ToInt32(Console.ReadLine());
-                        bank.AddDeposit2(accountIban, depositAmount);
+                        bank.AddDeposit2(ibanForDeposit, depositAmount);
                         System.Threading.Thread.Sleep(1500);
                         Console.Clear();
                         DisplayMenu();
@@ -108,9 +107,11 @@ namespace ITM_Lab02
                     case 3:
                         Console.Clear();
                         Console.WriteLine("      Withdraw");
+                        Console.WriteLine("Insert iban:");
+                        var ibanForWithdraw = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("Insert amount you want to withdraw:");
                         var amountWitdraw = Convert.ToInt32(Console.ReadLine());
-                        bank.WitdrawFromDeposit2(accountIban, amountWitdraw);
+                        bank.WitdrawFromDeposit2(ibanForWithdraw, amountWitdraw);
                         System.Threading.Thread.Sleep(1500);
                         Console.Clear();
                         DisplayMenu();
@@ -119,7 +120,9 @@ namespace ITM_Lab02
                     case 4:
                         Console.Clear();
                         Console.WriteLine("     Display sold");
-                        bank.DisplayAmount2(accountIban);
+                        Console.WriteLine("Insert iban:");
+                        var ibanForDisplay = Convert.ToInt32(Console.ReadLine());
+                        bank.DisplayAmount2(ibanForDisplay);
                         System.Threading.Thread.Sleep(1500);
                         Console.Clear();
                         DisplayMenu();
@@ -129,28 +132,26 @@ namespace ITM_Lab02
                         Console.Clear();
                         Console.WriteLine("     Delete account");
                         Console.WriteLine("Enter the account name or iban:");
-                        var deleteByNameOrIban = Console.ReadLine();
-                          
-                        string finalType = "String";
-                        if (!string.IsNullOrEmpty(deleteByNameOrIban))
-                        {
-                            // Check integer before Decimal
-                            int tryInt;                            
-                            if (Int32.TryParse(deleteByNameOrIban, out tryInt))
-                            {
-                                finalType = "Integer";
-                                bank.DeleteAccount(Convert.ToInt32(deleteByNameOrIban));
-                            }
-                            else 
-                            {
-                                finalType = "String";
-                                bank.DeleteAccount(deleteByNameOrIban);
-                            }
+                        var deleteByNameOrIban = Convert.ToInt32(Console.ReadLine());
+                        
+                        //string finalType = "String";
+                        //if (!string.IsNullOrEmpty(deleteByNameOrIban))
+                        //{
+                        //    // Check integer before Decimal
+                        //    int tryInt;                            
+                        //    if (Int32.TryParse(deleteByNameOrIban, out tryInt))
+                        //    {
+                        //        finalType = "Integer";
+                        //        bank.DeleteAccount(Convert.ToInt32(deleteByNameOrIban));
+                        //    }
+                        //    else 
+                        //    {
+                        //        finalType = "String";
+                        //        bank.DeleteAccount(deleteByNameOrIban);
+                        //    }
 
-                        }
-
-                        Console.WriteLine(finalType);
-
+                        //}
+                        bank.DeleteAccount(deleteByNameOrIban);                     
 
                         System.Threading.Thread.Sleep(1500);
                         Console.Clear();

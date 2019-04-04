@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ITM_Lab02
 {
@@ -36,57 +34,69 @@ namespace ITM_Lab02
                 {
                     return item;
                 }
-                
+
             }
             return null;
         }
 
         public Account AddDeposit2(int iBan, int sum)
         {
-            foreach (var item in Accounts)
-            {
-                if (item.Iban == iBan)
-                {
-                    item.Amount += sum;
-                    Console.WriteLine("You added {0} $ into yout account.", sum);
-                    Console.WriteLine("Total amount is:  {0} $", item.Amount);
-                }
+            var currentAccount = GetAccount(iBan);
 
+            //foreach (var item in Accounts)
+            //{
+                if (currentAccount.Iban == iBan)
+                {
+                    currentAccount.Amount += sum;
+                    Console.WriteLine("You added {0} $ into yout account.", sum);
+                    Console.WriteLine("Total amount is:  {0} $", currentAccount.Amount);
+                }
+            else
+            {
+                Console.WriteLine("Iban incorrect");
             }
-            return null;
+
+            //}
+            return currentAccount;
         }
 
         public Account WitdrawFromDeposit2(int iBan, int sum)
         {
+            var currentAccount = GetAccount(iBan);
+
             var commisionWitdraw = CalculateCommision(sum);
-            foreach (var item in Accounts)
+            if (currentAccount.Iban == iBan)
             {
-                if (item.Iban == iBan)
-                {
-                    item.Amount = item.Amount - sum - commisionWitdraw;
-                    Console.WriteLine("You witdrawed {0} $ from yout account.", sum);
-                    Console.WriteLine("Remaining amount is:  {0} $", item.Amount);
-                }
+                currentAccount.Amount = currentAccount.Amount - sum - commisionWitdraw;
+                Console.WriteLine("You witdrawed {0} $ from yout account.", sum);
+                Console.WriteLine("Remaining amount is:  {0} $", currentAccount.Amount);
             }
-            return null;
+            else
+            {
+                Console.WriteLine("Iban incorrect");
+            }
+            return currentAccount;
+
         }
 
         public void DisplayAmount2(int iBan)
         {
+            var currentAccount = GetAccount(iBan);
 
-            foreach (var item in Accounts)
+            if (currentAccount.Iban == iBan)
             {
-                if (item.Iban == iBan)
-                {
-                    Console.WriteLine("Your total amount is: {0}", item.Amount);                  
-                }
-            }            
-           
+                Console.WriteLine("Your total amount is: {0}", currentAccount.Amount);
+            }
+            else
+            {
+                Console.WriteLine("Account is incorret");
+            }
+
         }
 
         public int CalculateCommision(int amount)
         {
-            var commision = Convert.ToInt32(amount * 0.05);
+            int commision = Convert.ToInt32(amount * 0.05);
             Console.WriteLine("Your commision is {0}", commision);
             return commision;
         }
@@ -94,43 +104,45 @@ namespace ITM_Lab02
         //delete account by iban
         public Account DeleteAccount(int accountIBan)
         {
-            foreach (var item in Accounts)
+            var currentAccount = GetAccount(accountIBan);
+
+
+            var initialAccountsNumber = Accounts.Count();
+            Accounts.Remove(currentAccount);
+
+            var actualAccountsNumber = Accounts.Count();
+            if (initialAccountsNumber > actualAccountsNumber)
             {
-                if (item.Iban == accountIBan)
-                {
-                    var initialAccountsNumber = Accounts.Count();
-                    Accounts.Remove(item);
-
-                    var actualAccountsNumber = Accounts.Count();
-                    if (initialAccountsNumber > actualAccountsNumber)
-                    {
-                        Console.WriteLine("Account was deleted!");
-                    }
-                }
-
+                Console.WriteLine("Account was deleted!");
             }
+
+
+
             return null;
         }
 
-        public Account DeleteAccount(string accountName)
-        {
-            foreach (var item in Accounts)
-            {
-                if (item.UserName == accountName)
-                {
-                    var initialAccountsNumber = Accounts.Count();
-                    Accounts.Remove(item);
-                    
-                    var actualAccountsNumber = Accounts.Count();
-                    if (initialAccountsNumber > actualAccountsNumber)
-                    {
-                        Console.WriteLine("Account was deleted!");
-                    }
-                }
+        ////delete account by name
+        //public Account DeleteAccount(string accountName)
+        //{
 
-            }
-            return null;
-        }
+        //    var currentAccount = GetAccount(accountName);
+        //    //foreach (var item in Accounts)
+        //    //{
+        //        if (item.UserName == accountName)
+        //        {
+        //            var initialAccountsNumber = Accounts.Count();
+        //            Accounts.Remove(item);
+
+        //            var actualAccountsNumber = Accounts.Count();
+        //            if (initialAccountsNumber > actualAccountsNumber)
+        //            {
+        //                Console.WriteLine("Account was deleted!");
+        //            }
+        //        }
+
+        //    //}
+        //    return null;
+        //}
     }
 }
 
